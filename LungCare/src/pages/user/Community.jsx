@@ -2,18 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 const Community = () => {
-    const [posts, setPosts] = useState([]);
-    const [newPost, setNewPost] = useState("");
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        loadApprovedStories();
-    }, []);
-
     // دالة لجلب القصص التي وافق عليها الأدمن فقط
     const loadApprovedStories = () => {
         const approved = JSON.parse(localStorage.getItem('approved_stories') || '[]');
-        
+
         // تحويل بيانات الـ Success Stories لتناسب شكل البوستات في الكوميونيتي
         const formattedApproved = approved.map(s => ({
             id: Math.random(),
@@ -36,8 +28,15 @@ const Community = () => {
             }
         ];
 
-        setPosts([...formattedApproved, ...defaultPosts]);
+        return [...formattedApproved, ...defaultPosts];
     };
+
+    const [posts] = useState(() => loadApprovedStories());
+    const [newPost, setNewPost] = useState("");
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handlePostSubmit = (e) => {
         e.preventDefault();
@@ -71,19 +70,19 @@ const Community = () => {
     };
 
     return (
-        <div className="container py-5" style={{ marginTop: '40px', minHeight: '100vh'}}>
+        <div className="container py-5" style={{ marginTop: '40px', minHeight: '100vh' }}>
             <div className="row justify-content-center">
                 <h1 className="text-center fw-bold text-dark mb-5">Community Stories</h1>
                 <div className="col-md-8">
-                    
+
                     {/* مربع كتابة بوست جديد */}
                     <div className="card shadow-sm border-0 mb-4" style={{ borderRadius: '15px' }}>
                         <div className="card-body p-4">
                             <h5 className="fw-bold mb-3">Share your journey 🗣️</h5>
                             <form onSubmit={handlePostSubmit}>
-                                <textarea 
-                                    className="form-control border-0 bg-light mb-3" 
-                                    rows="3" 
+                                <textarea
+                                    className="form-control border-0 bg-light mb-3"
+                                    rows="3"
                                     placeholder="Write your success story to inspire others..."
                                     style={{ borderRadius: '12px', resize: 'none' }}
                                     value={newPost}
@@ -106,7 +105,7 @@ const Community = () => {
                             <div key={post.id} className="card shadow-sm border-0 mb-3 animate__animated animate__fadeInUp" style={{ borderRadius: '15px' }}>
                                 <div className="card-body p-4">
                                     <div className="d-flex align-items-center mb-3">
-                                        <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" 
+                                        <div className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
                                             style={{ width: '45px', height: '45px', fontSize: '1.2rem' }}>
                                             {post.user.charAt(0)}
                                         </div>

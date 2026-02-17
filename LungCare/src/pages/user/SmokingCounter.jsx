@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
 const SmokingCounter = () => {
-    useEffect(() => {
-            window.scrollTo(0, 0);
-        }, []);
-    const [hasData, setHasData] = useState(false);
-    const [userData, setUserData] = useState({
-        quitDate: '',
-        pricePerPack: '',
-        cigarettesPerPack: '20',
-        cigarettesPerDay: ''
+    const [userData, setUserData] = useState(() => {
+        const saved = localStorage.getItem('smokingData');
+        return saved ? JSON.parse(saved) : {
+            quitDate: '',
+            pricePerPack: '',
+            cigarettesPerPack: '20',
+            cigarettesPerDay: ''
+        };
+    });
+
+    const [hasData, setHasData] = useState(() => {
+        return localStorage.getItem('smokingData') ? true : false;
     });
 
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [stats, setStats] = useState({ moneySaved: 0, cigarettesAvoided: 0 });
 
     useEffect(() => {
-        const saved = localStorage.getItem('smokingData');
-        if (saved) {
-            setUserData(JSON.parse(saved));
-            setHasData(true);
-        }
+        window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {
@@ -55,7 +54,7 @@ const SmokingCounter = () => {
     };
 
     const handleReset = () => {
-        if(window.confirm("Are you sure you want to reset your progress?")) {
+        if (window.confirm("Are you sure you want to reset your progress?")) {
             localStorage.removeItem('smokingData');
             setHasData(false);
         }
@@ -71,35 +70,35 @@ const SmokingCounter = () => {
                         <h3 className="fw-bold m-0">New Beginning</h3>
                         <p className="opacity-75 mt-2">Fill in your details to track your success</p>
                     </div>
-                    
+
                     <div className="card-body p-4 p-md-5 bg-white">
                         <form onSubmit={handleSave}>
                             <div className="mb-4">
                                 <label className="form-label fw-bold text-secondary small text-uppercase">Quit Date & Time</label>
-                                <input type="datetime-local" className="form-control form-control-lg border-0 bg-light" 
-                                        style={{ borderRadius: '15px', fontSize: '1rem' }} required 
-                                        onChange={(e) => setUserData({...userData, quitDate: e.target.value})} />
+                                <input type="datetime-local" className="form-control form-control-lg border-0 bg-light"
+                                    style={{ borderRadius: '15px', fontSize: '1rem' }} required
+                                    onChange={(e) => setUserData({ ...userData, quitDate: e.target.value })} />
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="form-label fw-bold text-secondary small text-uppercase">Price Per Pack (EGP)</label>
                                 <div className="input-group">
                                     <span className="input-group-text border-0 bg-light" style={{ borderRadius: '15px 0 0 15px' }}>EGP</span>
-                                    <input type="number" className="form-control form-control-lg border-0 bg-light" 
-                                            style={{ borderRadius: '0 15px 15px 0', fontSize: '1rem' }} placeholder="60" required
-                                            onChange={(e) => setUserData({...userData, pricePerPack: e.target.value})} />
+                                    <input type="number" className="form-control form-control-lg border-0 bg-light"
+                                        style={{ borderRadius: '0 15px 15px 0', fontSize: '1rem' }} placeholder="60" required
+                                        onChange={(e) => setUserData({ ...userData, pricePerPack: e.target.value })} />
                                 </div>
                             </div>
-                            
+
                             <div className="mb-4">
                                 <label className="form-label fw-bold text-secondary small text-uppercase">Cigarettes Smoked Per Day</label>
-                                <input type="number" className="form-control form-control-lg border-0 bg-light" 
-                                        style={{ borderRadius: '15px', fontSize: '1rem' }} placeholder="20" required
-                                        onChange={(e) => setUserData({...userData, cigarettesPerDay: e.target.value})} />
+                                <input type="number" className="form-control form-control-lg border-0 bg-light"
+                                    style={{ borderRadius: '15px', fontSize: '1rem' }} placeholder="20" required
+                                    onChange={(e) => setUserData({ ...userData, cigarettesPerDay: e.target.value })} />
                             </div>
 
-                            <button type="submit" className="btn btn-lg w-100 shadow-sm text-white fw-bold py-3 mt-2" 
-                                    style={{ background: 'linear-gradient(135deg, #667eea 0%, #3754d1 100%)', borderRadius: '15px', border: 'none' }}>
+                            <button type="submit" className="btn btn-lg w-100 shadow-sm text-white fw-bold py-3 mt-2"
+                                style={{ background: 'linear-gradient(135deg, #667eea 0%, #3754d1 100%)', borderRadius: '15px', border: 'none' }}>
                                 Start Tracking Progress
                             </button>
                         </form>
@@ -109,10 +108,10 @@ const SmokingCounter = () => {
                 /* --- لوحة العرض (Dashboard) بعد الإدخال --- */
                 <div className="text-center animate__animated animate__fadeIn">
                     <h2 className="fw-bold mb-4" style={{ color: '#4a4a4a' }}>Your Smoke-Free Journey</h2>
-                    
+
                     <div className="row g-4">
                         <div className="col-12">
-                            <div className="card border-0 shadow-lg p-5 text-white" 
+                            <div className="card border-0 shadow-lg p-5 text-white"
                                 style={{ borderRadius: '30px', background: 'linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)' }}>
                                 <h4 className="opacity-75 mb-4 text-uppercase fw-bold" style={{ letterSpacing: '2px' }}>Time Since Last Cigarette</h4>
                                 <div className="row g-2">

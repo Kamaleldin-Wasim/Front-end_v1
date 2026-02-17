@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Calendar, MapPin, User, CheckCircle, X } from 'lucide-react';
 
 const Seminars = () => {
     // 1. جلب الندوات من الـ localStorage (نفس المفتاح المستخدم في صفحة الأدمن)
-    const [seminars, setSeminars] = useState([]);
-    const [registeredIds, setRegisteredIds] = useState([]); // لتخزين الندوات التي سجل فيها اليوزر
-    const [showModal, setShowModal] = useState(false);
-    const [selectedSeminar, setSelectedSeminar] = useState(null); // لتحديد الندوة المختارة للتسجيل
-
-    useEffect(() => {
+    const [seminars] = useState(() => {
         const savedSeminars = localStorage.getItem('global_seminars');
         if (savedSeminars) {
-            setSeminars(JSON.parse(savedSeminars));
-        } else {
-            // بيانات افتراضية لو الـ localStorage فاضي
-            setSeminars([
-                { id: 1, name: "Smoking Awareness", time: "Oct 25, 2026 – 7:00 PM", location: "Hilton Grand Nile Tower", speaker: "Gruen Von Behrens" }
-            ]);
+            return JSON.parse(savedSeminars);
         }
-    }, []);
+        // بيانات افتراضية لو الـ localStorage فاضي
+        return [
+            { id: 1, name: "Smoking Awareness", time: "Oct 25, 2026 – 7:00 PM", location: "Hilton Grand Nile Tower", speaker: "Gruen Von Behrens" }
+        ];
+    });
+    const [registeredIds, setRegisteredIds] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedSeminar, setSelectedSeminar] = useState(null);
 
     const handleOpenModal = (seminar) => {
         setSelectedSeminar(seminar);
@@ -28,7 +25,7 @@ const Seminars = () => {
 
     const handleConfirmRegistration = (e) => {
         e.preventDefault();
-        
+
         setShowModal(false);
 
         Swal.fire({
@@ -47,7 +44,7 @@ const Seminars = () => {
         <section className="bg-light py-5">
             <div className="container">
                 <h2 className="fw-bold text-center mb-5">Upcoming Seminars</h2>
-                
+
                 <div className="row g-4 justify-content-center">
                     {seminars.map((seminar) => (
                         <div className="col-lg-8" key={seminar.id}>
@@ -61,16 +58,16 @@ const Seminars = () => {
 
                                 <div className="text-muted mb-4 fs-5">
                                     <p className="mb-2 d-flex align-items-center">
-                                        <MapPin size={20} className="me-2 text-primary" /> 
+                                        <MapPin size={20} className="me-2 text-primary" />
                                         <strong>Location :</strong>&nbsp;{seminar.location}
                                     </p>
                                     <p className="mb-0 d-flex align-items-center">
-                                        <User size={20} className="me-2 text-primary" /> 
+                                        <User size={20} className="me-2 text-primary" />
                                         <strong>Speaker :</strong>&nbsp;{seminar.speaker}
                                     </p>
                                 </div>
 
-                                <button 
+                                <button
                                     className={`btn ${registeredIds.includes(seminar.id) ? 'btn-success' : 'btn-primary'} w-100 py-3 fw-bold fs-5 shadow-sm transition-all`}
                                     onClick={() => !registeredIds.includes(seminar.id) && handleOpenModal(seminar)}
                                     disabled={registeredIds.includes(seminar.id)}

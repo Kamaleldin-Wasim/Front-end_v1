@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // أضفنا useEffect
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, FileText, UserCheck, Stethoscope, Edit, Trash2, Check, Plus } from 'lucide-react';
 import Swal from 'sweetalert2';
@@ -65,18 +65,18 @@ const AdminHome = () => {
     return (
         <div className="admin-dashboard bg-white" style={{ marginTop: '0', paddingTop: '0' }}>
             {/* ... الـ Hero Section والـ Stats Grid والـ Tools زي ما هي بالظبط بدون تغيير ... */}
-            <div className="position-relative overflow-hidden" 
-                style={{ 
-                    minHeight: '450px', 
-                    paddingTop: '120px', 
+            <div className="position-relative overflow-hidden"
+                style={{
+                    minHeight: '450px',
+                    paddingTop: '120px',
                     paddingBottom: '80px',
-                    backgroundImage: 'url("/markus-frieauff-IJ0KiXl4uys-unsplash.jpg")', 
+                    backgroundImage: 'url("/markus-frieauff-IJ0KiXl4uys-unsplash.jpg")',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundAttachment: 'fixed',
                     backgroundRepeat: 'no-repeat'
                 }}>
-                <div className="position-absolute top-0 start-0 w-100 h-100" 
+                <div className="position-absolute top-0 start-0 w-100 h-100"
                     style={{ zIndex: 1, background: 'linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)' }}>
                 </div>
                 <div className="container position-relative" style={{ zIndex: 2 }}>
@@ -149,16 +149,16 @@ const AdminHome = () => {
 
                     <div className="row g-3 mt-4 pt-4 border-top">
                         <div className="col-12"><h5 className="fw-bold text-primary">{editingId ? "Update Seminar" : "Add New Seminar"}</h5></div>
-                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Name" value={newSeminar.name} onChange={e => setNewSeminar({...newSeminar, name: e.target.value})} /></div>
-                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Time" value={newSeminar.time} onChange={e => setNewSeminar({...newSeminar, time: e.target.value})} /></div>
-                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Location" value={newSeminar.location} onChange={e => setNewSeminar({...newSeminar, location: e.target.value})} /></div>
-                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Speaker" value={newSeminar.speaker} onChange={e => setNewSeminar({...newSeminar, speaker: e.target.value})} /></div>
+                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Name" value={newSeminar.name} onChange={e => setNewSeminar({ ...newSeminar, name: e.target.value })} /></div>
+                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Time" value={newSeminar.time} onChange={e => setNewSeminar({ ...newSeminar, time: e.target.value })} /></div>
+                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Location" value={newSeminar.location} onChange={e => setNewSeminar({ ...newSeminar, location: e.target.value })} /></div>
+                        <div className="col-md-6"><input type="text" className="form-control bg-light" placeholder="Speaker" value={newSeminar.speaker} onChange={e => setNewSeminar({ ...newSeminar, speaker: e.target.value })} /></div>
                         <div className="col-12 d-flex gap-2">
                             <button className={`btn ${editingId ? 'btn-warning' : 'btn-primary'} flex-grow-1 fw-bold py-2`} onClick={handleSaveSeminar}>
-                                {editingId ? <><Check size={18}/> Update</> : <><Plus size={18}/> Done</>}
+                                {editingId ? <><Check size={18} /> Update</> : <><Plus size={18} /> Done</>}
                             </button>
                             {editingId && (
-                                <button className="btn btn-secondary px-4" onClick={() => {setEditingId(null); setNewSeminar({name:'', time:'', location:'', speaker:''})}}>Cancel</button>
+                                <button className="btn btn-secondary px-4" onClick={() => { setEditingId(null); setNewSeminar({ name: '', time: '', location: '', speaker: '' }) }}>Cancel</button>
                             )}
                         </div>
                     </div>

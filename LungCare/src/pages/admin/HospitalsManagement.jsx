@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Trash2, Edit } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 const HospitalsManagement = () => {
-    const [facilities, setFacilities] = useState([]);
+    const [facilities, setFacilities] = useState(() => {
+        return JSON.parse(localStorage.getItem('all_hospitals')) || [];
+    });
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ id: null, name: '', type: '', location: '', googleMaps: '' });
-
-    useEffect(() => {
-        const saved = JSON.parse(localStorage.getItem('all_hospitals')) || [];
-        setFacilities(saved);
-    }, []);
 
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -20,6 +17,7 @@ const HospitalsManagement = () => {
         if (isEditing) {
             updated = facilities.map(f => f.id === formData.id ? formData : f);
         } else {
+            // eslint-disable-next-line react-hooks/purity
             updated = [...facilities, { ...formData, id: Date.now() }];
         }
         setFacilities(updated);
@@ -71,8 +69,8 @@ const HospitalsManagement = () => {
                                         <td><span className="badge bg-info text-dark">{f.type}</span></td>
                                         <td>{f.location}</td>
                                         <td>
-                                            <button onClick={() => {setFormData(f); setIsEditing(true);}} className="btn btn-sm btn-outline-primary me-2"><Edit size={16}/></button>
-                                            <button onClick={() => handleDelete(f.id)} className="btn btn-sm btn-outline-danger"><Trash2 size={16}/></button>
+                                            <button onClick={() => { setFormData(f); setIsEditing(true); }} className="btn btn-sm btn-outline-primary me-2"><Edit size={16} /></button>
+                                            <button onClick={() => handleDelete(f.id)} className="btn btn-sm btn-outline-danger"><Trash2 size={16} /></button>
                                         </td>
                                     </tr>
                                 ))}

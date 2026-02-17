@@ -3,26 +3,26 @@ import { CheckCircle, XCircle, UserCircle2, MessageSquareQuote, Inbox, RefreshCw
 import Swal from 'sweetalert2';
 
 const StoriesManagement = () => {
-    const [pendingStories, setPendingStories] = useState([]);
-
     // دالة جلب البيانات
     const loadPending = useCallback(() => {
         const savedPending = JSON.parse(localStorage.getItem('pending_stories') || '[]');
-        setPendingStories(savedPending);
+        return savedPending;
     }, []);
 
-    useEffect(() => {
-        // تحميل البيانات عند فتح الصفحة
-        loadPending();
+    const [pendingStories, setPendingStories] = useState(() => loadPending());
 
+    useEffect(() => {
         // تحديث البيانات إذا رجع الأدمن للتبويب (Tab Focus)
-        window.addEventListener('focus', loadPending);
-        return () => window.removeEventListener('focus', loadPending);
+        const handleFocus = () => {
+            setPendingStories(loadPending());
+        };
+        window.addEventListener('focus', handleFocus);
+        return () => window.removeEventListener('focus', handleFocus);
     }, [loadPending]);
 
     const handleAction = (id, action) => {
         const isAccept = action === 'accept';
-        
+
         Swal.fire({
             title: 'Review Decision',
             text: `Are you sure you want to ${action} this story?`,
@@ -39,7 +39,7 @@ const StoriesManagement = () => {
                     const approvedStories = JSON.parse(localStorage.getItem('approved_stories') || '[]');
                     const newApprovedStory = {
                         name: storyToProcess.author,
-                        time: "Recently", 
+                        time: "Recently",
                         story: storyToProcess.content
                     };
                     localStorage.setItem('approved_stories', JSON.stringify([newApprovedStory, ...approvedStories]));
@@ -48,7 +48,7 @@ const StoriesManagement = () => {
                 // تحديث الـ LocalStorage وحذف القصة من الانتظار
                 const updatedPending = pendingStories.filter(story => story.id !== id);
                 localStorage.setItem('pending_stories', JSON.stringify(updatedPending));
-                
+
                 // تحديث الـ State فوراً في الصفحة
                 setPendingStories(updatedPending);
 
@@ -96,7 +96,7 @@ const StoriesManagement = () => {
                                     </div>
                                     <div className="position-relative mb-4 flex-grow-1">
                                         <MessageSquareQuote className="text-primary position-absolute opacity-25" size={30} style={{ top: '-10px', left: '-10px' }} />
-                                        <p className="card-text text-secondary fs-5" style={{ lineHeight: '1.6', paddingLeft: '15px'}}>
+                                        <p className="card-text text-secondary fs-5" style={{ lineHeight: '1.6', paddingLeft: '15px' }}>
                                             {story.content}
                                         </p>
                                     </div>

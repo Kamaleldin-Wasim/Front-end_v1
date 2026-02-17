@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-    
+
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
-        fullName: '', email: '', age: '', gender: 'Male',
-        cigarettesPerDay: '', yearsOfSmoking: '',
-        medicalHistory: '', familyDiseases: '', previousQuitAttempts: ''
+        fullName: localStorage.getItem('userName') || 'Registered User',
+        email: 'user@example.com',
+        age: '',
+        gender: 'Male',
+        cigarettesPerDay: '',
+        yearsOfSmoking: '',
+        medicalHistory: '',
+        familyDiseases: '',
+        previousQuitAttempts: ''
     });
-    useEffect(() => {
-        const savedName = localStorage.getItem('userName') || 'Registered User';
-        setUserData(prev => ({ ...prev, fullName: savedName, email: 'user@example.com' }));
-    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -55,12 +57,12 @@ const Profile = () => {
                             ].map((field, idx) => (
                                 <div key={idx} className="col-12 d-md-flex align-items-center">
                                     <label className="form-label fw-bold text-muted mb-0" style={{ minWidth: '220px' }}>{field.label}</label>
-                                    <input 
-                                        name={field.name} 
-                                        type={field.type} 
-                                        className="form-control border-2 bg-light" 
-                                        value={userData[field.name]} 
-                                        onChange={handleChange} 
+                                    <input
+                                        name={field.name}
+                                        type={field.type}
+                                        className="form-control border-2 bg-light"
+                                        value={userData[field.name]}
+                                        onChange={handleChange}
                                         style={{ borderRadius: '10px' }}
                                     />
                                 </div>
