@@ -14,11 +14,35 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
+        // التحقق من تطابق كلمة المرور
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
-        alert("Account created successfully!");
+
+        // جلب المستخدمين الحاليين من الـ localStorage
+        const existingUsers = JSON.parse(localStorage.getItem('users_list') || '[]');
+
+        // التحقق من عدم تكرار الإيميل
+        const isEmailTaken = existingUsers.some(user => user.email === formData.email);
+        if (isEmailTaken) {
+            alert("This email is already registered!");
+            return;
+        }
+
+        // إضافة المستخدم الجديد للمصفوفة
+        const newUser = {
+            fullName: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+            role: 'user' // دور المستخدم الافتراضي
+        };
+
+        existingUsers.push(newUser);
+        localStorage.setItem('users_list', JSON.stringify(existingUsers));
+
+        alert("Account created successfully! Redirecting to login...");
         navigate('/login');
     };
 
@@ -94,8 +118,9 @@ const SignUp = () => {
                     </button>
                 </form>
 
-                <div className="position-relative my-4">
-                    <span className="position-absolute top-50 start-50 translate-middle px-3 small text-muted">Or sign up with</span>
+                <div className="position-relative my-4 text-center">
+                    <hr />
+                    <span className="position-absolute top-50 start-50 translate-middle px-3 small text-muted bg-white">Or sign up with</span>
                 </div>
 
                 <div className="d-flex gap-2 mb-3">

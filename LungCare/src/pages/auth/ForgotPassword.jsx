@@ -5,13 +5,26 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [foundPass, setFoundPass] = useState('');
 
     const bgImage = '/—Pngtree—anatomical lung_16185722.png';
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Reset link sent to:", email);
-        setSubmitted(true);
+        
+        // جلب المستخدمين للبحث عن الإيميل
+        const users = JSON.parse(localStorage.getItem('users_list') || '[]');
+        const user = users.find(u => u.email === email);
+
+        if (user) {
+            setFoundPass(user.password);
+            setSubmitted(true);
+        } else if (email === "admin@lungcare.com") {
+            setFoundPass("admin123");
+            setSubmitted(true);
+        } else {
+            alert("This email is not registered in our system.");
+        }
     };
 
     return (
@@ -31,8 +44,8 @@ const ForgotPassword = () => {
                     <h2 className="fw-bold text-primary">Reset Password</h2>
                     <p className="text-muted small">
                         {!submitted 
-                            ? "Enter your email to receive a reset link" 
-                            : "Check your inbox for further instructions"}
+                            ? "Enter your email to receive your password" 
+                            : "Account located successfully!"}
                     </p>
                 </div>
 
@@ -52,13 +65,14 @@ const ForgotPassword = () => {
                         </div>
 
                         <button type="submit" className="btn btn-primary w-100 fw-bold py-2 mb-3 shadow-sm" style={{ borderRadius: '10px' }}>
-                            Send Reset Link
+                            Recover Password
                         </button>
                     </form>
                 ) : (
                     <div className="text-center py-3">
-                        <div className="mb-3 text-success">
-                            <i className="fas fa-check-circle fa-3x"></i>
+                        <div className="alert alert-info py-3 mb-4">
+                            <h6 className="mb-1 fw-bold">Your Password:</h6>
+                            <h4 className="mb-0 text-primary">{foundPass}</h4>
                         </div>
                         <button className="btn btn-primary w-100 fw-bold py-2 mb-3 shadow-sm" onClick={() => navigate('/login')} style={{ borderRadius: '10px' }}>
                             Back to Login

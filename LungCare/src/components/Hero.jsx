@@ -28,25 +28,26 @@ const Hero = () => {
             }}
         >
             <div className="container">
-                <div className="row align-items-center g-4">
+                {/* أضفت gy-5 هنا بس عشان الصورة متبقاش لازقة في الكلام في الموبايل */}
+                <div className="row align-items-center gy-5">
                     
+                    {/* عمود الصورة - رجعت الـ col زي ما كان عندك */}
                     <div className="col-lg-5 order-1 order-lg-2 text-center">
-                        <div className="position-relative d-inline-block">
-                            <img 
-                                src={secImage} 
-                                alt="Doctor Recommendation" 
-                                className="img-fluid rounded-4 shadow-lg border border-light border-opacity-10" 
-                                style={{ 
-                                    maxHeight: '400px',
-                                    width: '100%',
-                                    objectFit: 'cover'
-                                }} 
-                            />
-                        </div>
+                        <img 
+                            src={secImage} 
+                            alt="Doctor Recommendation" 
+                            className="img-fluid rounded-4 shadow-lg border border-light border-opacity-10" 
+                            style={{ 
+                                maxHeight: '400px',
+                                width: '100%',
+                                objectFit: 'cover'
+                            }} 
+                        />
                     </div>
 
+                    {/* عمود الكلام - رجعت الـ col زي ما كان عندك */}
                     <div className="col-lg-7 order-2 order-lg-1 text-center text-lg-start">
-                        <h1 className="display-4 fw-bold text-white mb-3 mt-3 mt-lg-0">
+                        <h1 className="display-4 fw-bold text-white mb-3">
                             Your Complete Platform for <br className="d-none d-md-block"/> 
                             <span className="text-primary">Lung Health</span> & Smoking Cessation
                         </h1>
@@ -55,7 +56,8 @@ const Hero = () => {
                             Get accurate insights and personalized recommendations for a better life.
                         </p>
                         
-                        <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mb-5 mb-lg-0">
+                        {/* رجعت الـ d-flex بتاعتك زي ما هي بالظبط */}
+                        <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
                             <button 
                                 className="btn btn-primary btn-lg shadow px-4 py-2 fw-bold" 
                                 onClick={handleStart}

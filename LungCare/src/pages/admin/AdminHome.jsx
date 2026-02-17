@@ -92,16 +92,30 @@ const AdminHome = () => {
 
             <div className="container py-5">
                 {/* الإحصائيات (يمكنك تعديلها بنفس طريقة السمينار لاحقاً) */}
-                <div className="row g-4 mb-5">
+                <div className="row mb-5 g-4 justify-content-center">
                     {stats.map((stat, index) => (
-                        <div className="col-md-3" key={index}>
-                            <div className="card border-0 text-white text-center p-4 position-relative overflow-hidden shadow-sm rounded-4" style={{ minHeight: '180px' }}>
-                                <div className="position-absolute top-0 start-0 w-100 h-100" style={{ background: `url(${stat.bgImage}) center/cover`, zIndex: 0 }}></div>
-                                <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75" style={{ zIndex: 1 }}></div>
+                        <div className="col-12 col-sm-6 col-lg-3" key={index}>
+                            <div className="card border-0 text-white text-center p-4 position-relative overflow-hidden shadow-sm rounded-4" 
+                                style={{ 
+                                    minHeight: '180px', 
+                                    width: '100%'
+                                }}>
+                                
+                                {/* Background Image Layer */}
+                                <div className="position-absolute top-0 start-0 w-100 h-100" 
+                                    style={{ background: `url(${stat.bgImage}) center/cover`, zIndex: 0 }}>
+                                </div>
+                                
+                                {/* Overlay Layer */}
+                                <div className="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75" 
+                                    style={{ zIndex: 1 }}>
+                                </div>
+                                
+                                {/* Content Layer */}
                                 <div className="position-relative" style={{ zIndex: 2 }}>
                                     <div className="mb-2">{stat.icon}</div>
                                     <h2 className="fw-bold display-6 mb-0">{stat.value}</h2>
-                                    <p className="fs-5 mb-0">{stat.label}</p>
+                                    <p className="fs-5 mb-0 text-nowrap">{stat.label}</p>
                                 </div>
                             </div>
                         </div>
